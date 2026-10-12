@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Super Astro Brothers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<p id="loading">Loading…</p>
+<canvas id="game" width="800" height="400"></canvas>
+<div class="pad" aria-label="Touch controls">
+  <button id="btn-left" aria-label="Left">◀</button>
+  <button id="btn-right" aria-label="Right">▶</button>
+  <button id="btn-jump" aria-label="Jump">⤒</button>
+</div>
+<small>Arrows / WASD + Space to jump · M to mute · Stomp the aliens · Reach the flag</small>
+<script src="game.js"></script>
+</body>
+</html>
