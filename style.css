@@ -1,10 +1,41 @@
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0b1e33;--fg:#fff;--btn:#1d3f63}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:"Chakra Petch",monospace;touch-action:manipulation;-webkit-user-select:none;user-select:none}
-body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-canvas{width:100%;max-width:960px;display:block;background:#5ec2ee}
-.pad{display:flex;gap:12px}
-.pad button{width:72px;height:56px;font-size:24px;border:0;border-radius:10px;background:var(--btn);color:var(--fg)}
-.pad button:active{background:#2e6aa3}
+:root{--bg:#0b1e33;--fg:#fff;--btn:rgba(29,63,99,.78);box-sizing:border-box}
+*{-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:"Chakra Petch",monospace;
+  overflow:hidden;overscroll-behavior:none;touch-action:none;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+
+/* Game area keeps a 2:1 shape and fills as much of the screen as fits */
+#stage{position:relative;width:min(100vw,200dvh,1100px);aspect-ratio:2/1}
+canvas{width:100%;height:100%;display:block;background:#5ec2ee}
+#loading{position:absolute;inset:0;margin:0;display:grid;place-items:center}
+#fs{position:absolute;top:6px;right:6px;width:40px;height:40px;border:0;border-radius:8px;
+  background:var(--btn);color:var(--fg);font-size:20px;opacity:.8}
+
+/* Touch controls: hidden on mouse/keyboard devices */
+.pad{display:none;justify-content:space-between;align-items:flex-end;width:100%;box-sizing:border-box;padding:0 16px}
+.dir{display:flex;gap:14px}
+.pad button{width:76px;height:76px;font-size:28px;border:0;border-radius:50%;background:var(--btn);
+  color:var(--fg);touch-action:none}
+.pad button:active{background:rgba(46,106,163,.95)}
+.jump{width:92px!important;height:92px!important}
+#rotate{display:none;margin:0;padding:8px 14px;text-align:center;font-size:14px;background:#12335c;border-radius:8px}
 small{opacity:.7;text-align:center;padding:0 12px}
-#loading{position:absolute}
-@media (hover:hover) and (pointer:fine){.pad{display:none}}
+
+@media (pointer:coarse){
+  .pad{display:flex}
+  #hint{display:none}
+}
+/* Phone held upright: game on top, controls underneath, gentle rotate hint */
+@media (pointer:coarse) and (orientation:portrait){
+  #rotate{display:block}
+}
+/* Phone held sideways: game fills the screen, controls float over it */
+@media (pointer:coarse) and (orientation:landscape){
+  body{gap:0}
+  .pad{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));
+    padding:0 calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left));pointer-events:none}
+  .pad button{pointer-events:auto;opacity:.7;width:68px;height:68px}
+  .jump{width:84px!important;height:84px!important}
+}

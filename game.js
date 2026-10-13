@@ -22,7 +22,11 @@ const ASSETS = {
 
 const cv = document.getElementById('game'), ctx = cv.getContext('2d');
 const { W, H, GROUND: G, TILE: T, LEVEL_W: L } = CFG;
+// Sharp on retina phones: draw at device pixel ratio, keep game coordinates at 800x400
+const DPR = Math.min(window.devicePixelRatio || 1, 3);
+cv.width = W * DPR; cv.height = H * DPR; ctx.scale(DPR, DPR);
 ctx.imageSmoothingQuality = 'high';
+cv.addEventListener('contextmenu', e => e.preventDefault()); // no long-press menu on touch
 
 // ---------- Events for the host platform ----------
 function emit(name, detail = {}) {

@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b1e33">
 <title>Super Astro Brothers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,14 +13,35 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<p id="loading">Loading…</p>
-<canvas id="game" width="800" height="400"></canvas>
-<div class="pad" aria-label="Touch controls">
-  <button id="btn-left" aria-label="Left">◀</button>
-  <button id="btn-right" aria-label="Right">▶</button>
-  <button id="btn-jump" aria-label="Jump">⤒</button>
+<p id="rotate">📱 Rotate your phone sideways for a bigger view</p>
+<div id="stage">
+  <canvas id="game" width="800" height="400"></canvas>
+  <p id="loading">Loading…</p>
+  <button id="fs" aria-label="Fullscreen" hidden>⛶</button>
 </div>
-<small>Arrows / WASD + Space to jump · M to mute · Stomp the aliens · Reach the flag</small>
+<div class="pad" aria-label="Touch controls">
+  <div class="dir">
+    <button id="btn-left" aria-label="Left">◀</button>
+    <button id="btn-right" aria-label="Right">▶</button>
+  </div>
+  <button id="btn-jump" class="jump" aria-label="Jump">⤒</button>
+</div>
+<small id="hint">Arrows / WASD + Space to jump · M to mute · Stomp the aliens · Reach the flag</small>
 <script src="game.js"></script>
+<script>
+// Fullscreen button (not supported on iPhone Safari, so it stays hidden there)
+(function () {
+  var b = document.getElementById('fs'), el = document.documentElement;
+  if (!b || !(el.requestFullscreen || el.webkitRequestFullscreen)) return;
+  b.hidden = false;
+  b.addEventListener('click', function () {
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    var p = el.requestFullscreen ? el.requestFullscreen() : el.webkitRequestFullscreen();
+    Promise.resolve(p).then(function () {
+      if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(function () {});
+    }).catch(function () {});
+  });
+})();
+</script>
 </body>
 </html>
